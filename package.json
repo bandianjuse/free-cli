@@ -20,8 +20,8 @@
     },
     "files": [
         "index.js",
-        "createFreeApp.js",
-        "yarn.lock.cached"
+        "createProject.js",
+        "template"
     ],
     "homepage": "https://github.com/bandianjuse/free-cli#readme",
     "bin": {
