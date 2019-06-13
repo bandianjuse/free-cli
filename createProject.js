@@ -98,6 +98,10 @@ function createApp(
 ) {
     const root = path.resolve(name);
     const appName = path.basename(root);
+    const ownPath = path.dirname(
+        require.resolve(path.join(__dirname, 'package.json'))
+    );
+
 
     checkAppName(appName);
     fs.ensureDirSync(name);
@@ -107,16 +111,16 @@ function createApp(
     console.log(`正在 ${chalk.green(root)} 创建一个新的应用程序...`);
     console.log();
 
-    const originalDirectory = process.cwd();
+    process.cwd();
     process.chdir(root);
 
-    const templatePath = path.resolve(originalDirectory, 'template', template);
+    const templatePath = path.resolve(ownPath, 'template', template);
 
     if (fs.existsSync(templatePath)) {
         fs.copySync(templatePath, root);
     } else {
         console.error(
-            `Could not locate supplied template: ${chalk.green(templatePath)}`
+            `无法定位提供的模板: ${chalk.green(templatePath)}`
         );
         return;
     }
