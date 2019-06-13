@@ -1,0 +1,43 @@
+{
+    "name": "free-cli",
+    "version": "1.0.0",
+    "description": "vue.js react.js 通用的脚手架",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bandianjuse/free-cli.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "engines": {
+        "node": ">=8"
+    },
+    "bugs": {
+        "url": "https://github.com/bandianjuse/free-cli/issues"
+    },
+    "files": [
+        "index.js",
+        "createFreeApp.js",
+        "yarn.lock.cached"
+    ],
+    "homepage": "https://github.com/bandianjuse/free-cli#readme",
+    "bin": {
+        "free-cli": "./index.js"
+    },
+    "dependencies": {
+        "chalk": "2.4.2",
+        "commander": "2.19.0",
+        "cross-spawn": "6.0.5",
+        "envinfo": "7.1.0",
+        "fs-extra": "7.0.1",
+        "hyperquest": "2.1.3",
+        "inquirer": "6.2.2",
+        "semver": "6.0.0",
+        "tar-pack": "3.4.1",
+        "tmp": "0.0.33",
+        "validate-npm-package-name": "3.0.0"
+    }
+}
