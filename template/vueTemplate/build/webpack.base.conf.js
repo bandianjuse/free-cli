@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
     entry: "./src/main", // string | object | array
@@ -12,14 +13,8 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                },
-                exclude: /node_modules/
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.(png|svg|jpe?g|gif)$/,
@@ -59,6 +54,7 @@ module.exports = {
     resolve: {
         alias: {
             '@': path.resolve(__dirname, '../src'),
+            'vue': 'vue/dist/vue.esm.js'
         }
     },
 
@@ -71,6 +67,7 @@ module.exports = {
             filename: "[name].css",
             allChunks: false
         }),
+        new VueLoaderPlugin()
     ],
 
 }

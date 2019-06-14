@@ -1,9 +1,10 @@
-import React from 'react';
-import { render } from 'react-dom';
-import Test from '@/pages/Test';
+import Vue from 'vue';
+import App from '@/App.vue';
+import '@/assets/scss/main.scss';
 
 
-render(
-    <Test />,
-    document.getElementById('root')
-);
+Vue.config.productionTip = false;
+
+new Vue({
+    render: h => h(App),
+}).$mount('#root');

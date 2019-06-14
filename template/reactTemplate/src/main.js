@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Test from '@/pages/Test';
+import App from '@/App';
 
 
 render(
-    <Test />,
+    <App />,
     document.getElementById('root')
 );
