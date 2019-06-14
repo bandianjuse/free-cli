@@ -5,6 +5,7 @@ const commander = require('commander');
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
+const spawn = require('cross-spawn');
 const validateProjectName = require('validate-npm-package-name');
 const packageJson = require('./package.json');
 const errorLogFilePatterns = [
@@ -21,6 +22,7 @@ const program = new commander.Command(packageJson.name)
     .action(name => {
         projectName = name;
     })
+    .option('-i, --install', '创建项目后安装依赖包')
     .option('-r, --use-react', '使用react.js 项目')
     .option('--info', '输出环境调试信息')
     .allowUnknownOption()
@@ -77,19 +79,20 @@ if (typeof projectName === 'undefined') {
 
 createApp(
     projectName,
-    template
+    template,
+    program.install
 );
 
 function createApp(
     name,
-    template
+    template,
+    isInstall
 ) {
     const root = path.resolve(name);
     const appName = path.basename(root);
     const ownPath = path.dirname(
         require.resolve(path.join(__dirname, 'package.json'))
     );
-
 
     checkAppName(appName);
     fs.ensureDirSync(name);
@@ -127,17 +130,17 @@ function createApp(
         JSON.stringify(appPackageLock, null, 2) + os.EOL
     );
 
-    console.log(`${appName} 已在 ${root} 成功创建。`);
-    console.log('您可以：');
-    console.log();
-    console.log(chalk.cyan('  cd'), appName);
-    console.log();
-    console.log('进入目录，然后执行');
-    console.log()
-    console.log(chalk.cyan('  npm install'));
-    console.log(chalk.cyan('  npm run start'));
-    console.log()
-    console.log('运行项目！');
+
+    if (isInstall) {
+        install(root).then(() => {
+            printSuccessInfo(root, appName, isInstall)
+        });
+    } else {
+        printSuccessInfo(root, appName)
+    }
+
+
+
 
 }
 
@@ -229,6 +232,43 @@ function isSafeToCreateProjectIn(root, name) {
         });
     });
     return true;
+}
+
+function install(root) {
+    return new Promise((resolve, reject) => {
+        let command = 'npm';
+        let args = [
+            'install',
+            root
+        ]
+        console.log('正在安装包,这可能需要几分钟...');
+
+        const child = spawn(command, args, { stdio: 'inherit' });
+        child.on('close', code => {
+            if (code !== 0) {
+                reject({
+                    command: `node ${args.join(' ')}`,
+                });
+                return;
+            }
+            resolve();
+        });
+    })
+
+}
+
+function printSuccessInfo(root, appName, isInstall) {
+    console.log(`${appName} 已在 ${root} 成功创建。`);
+    console.log('您可以：');
+    console.log();
+    console.log(chalk.cyan('  cd'), appName);
+    console.log();
+    console.log('进入目录，然后执行');
+    console.log()
+    if (!isInstall) console.log(chalk.cyan('  npm install'));
+    console.log(chalk.cyan('  npm run start'));
+    console.log()
+    console.log('运行项目！');
 }
 
 

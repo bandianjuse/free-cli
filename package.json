@@ -32,6 +32,7 @@
         "commander": "2.19.0",
         "envinfo": "7.1.0",
         "fs-extra": "7.0.1",
-        "validate-npm-package-name": "3.0.0"
+        "validate-npm-package-name": "3.0.0",
+        "cross-spawn": "6.0.5"
     }
 }
